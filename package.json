@@ -1,0 +1,27 @@
+{
+  "name": "jira-upload-deployment-info",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HighwayThree/jira-upload-deployment-info.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HighwayThree/jira-upload-deployment-info/issues"
+  },
+  "homepage": "https://github.com/HighwayThree/jira-upload-deployment-info#readme",
+  "dependencies": {
+    "@actions/core": "^1.2.1",
+    "@actions/github": "^2.0.1",
+    "dateformat": "^3.0.3",
+    "request": "^2.88.0",
+    "request-promise-native": "^1.0.8"
+  }
+}

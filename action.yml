@@ -1,0 +1,64 @@
+name: 'Jira Upload Deployment Info'
+description: 'Github Action to upload deployment info associated with a Jira issue key to Jira Software REST API'
+inputs:
+  cloud-id:
+    description: 'Jira cloud id'
+    required: true
+  client-id:
+    description: 'jira oauth client id'
+    required: true
+  client-secret:
+    description: 'jira oauth client secret'
+    required: true
+  deployment-sequence-number:
+    description: ''
+    required: true
+  update-sequence-number:
+    description: ''
+    required: true
+  issue-keys:
+    description: 'comma delimited list of jira keys'
+    required: true
+  display-name:
+    description: ''
+    required: true
+  url:
+    description: ''
+    required: true
+  description:
+    description: ''
+    required: true
+  last-updated:
+    description: ''
+    required: true
+  label:
+    description: ''
+    required: true
+  state:
+    description: ''
+    required: true
+  pipeline-id:
+    description: ''
+    required: true
+  pipeline-display-name:
+    description: ''
+    required: true
+  pipeline-url:
+    description: ''
+    required: true
+  environment-id:
+    description: ''
+    required: true
+  environment-display-name:
+    description: ''
+    required: true
+  environment-type:
+    description: ''
+    required: true
+
+outputs:
+  response:
+    description: 'Response from upload deployment info endpoint of Jira Software REST API'
+runs:
+  using: 'node12'
+  main: 'index.js'
