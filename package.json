@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "test": "tsc --noEmit && jest"
   },
   "repository": {
     "type": "git",
@@ -18,10 +19,18 @@
   },
   "homepage": "https://github.com/HighwayThree/jira-upload-deployment-info#readme",
   "dependencies": {
-    "@actions/core": "^1.2.1",
-    "@actions/github": "^2.0.1",
     "dateformat": "^3.0.3",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.8"
+  },
+  "devDependencies": {
+    "@actions/core": "^1.2.2",
+    "@actions/github": "^2.1.0",
+    "@types/jest": "^25.1.2",
+    "@types/node": "^13.7.0",
+    "jest": "^25.1.0",
+    "js-yaml": "^3.13.1",
+    "ts-jest": "^25.2.0",
+    "typescript": "^3.7.5"
   }
 }
