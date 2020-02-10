@@ -13,10 +13,10 @@ var tokenBodyData: any = {
     "client_secret": ''
 };
 
-let bodyData: any =
-    {
-        deployments: []
-    };
+// let bodyData: any =
+//     {
+//         deployments: []
+//     };
 
 async function submitDeploymentInfo(accessToken: any) {
     const cloudId = core.getInput('cloud-id');
@@ -63,7 +63,9 @@ async function submitDeploymentInfo(accessToken: any) {
         }
     };
 
-    bodyData.deployments = [deployment];
+    let bodyData: any = {
+        deployments: [deployment],
+    }
     bodyData = JSON.stringify(bodyData);
 
     const options: iOptions = {

@@ -9,9 +9,10 @@ var tokenBodyData = {
     "client_id": '',
     "client_secret": ''
 };
-let bodyData = {
-    deployments: []
-};
+// let bodyData: any =
+//     {
+//         deployments: []
+//     };
 async function submitDeploymentInfo(accessToken) {
     const cloudId = core.getInput('cloud-id');
     const deploymentSequenceNumber = core.getInput('deployment-sequence-number');
@@ -53,7 +54,9 @@ async function submitDeploymentInfo(accessToken) {
             type: environmentType || ""
         }
     };
-    bodyData.deployments = [deployment];
+    let bodyData = {
+        deployments: [deployment],
+    };
     bodyData = JSON.stringify(bodyData);
     const options = {
         method: 'POST',
