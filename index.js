@@ -9,15 +9,15 @@ var tokenBodyData = {
     "client_id": '',
     "client_secret": ''
 };
-var tokenOptions = {
-    method: 'POST',
-    url: 'https://api.atlassian.com/oauth/token',
-    headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-    },
-    body: {}
-};
+// var tokenOptions = {
+//     method: 'POST',
+//     url: 'https://api.atlassian.com/oauth/token',
+//     headers: {
+//         'Accept': 'application/json',
+//         'Content-Type': 'application/json'
+//     },
+//     body: {}
+// };
 let bodyData = {
     deployments: []
 };
@@ -96,7 +96,16 @@ async function getAccessToken() {
     tokenBodyData.client_id = clientId;
     tokenBodyData.client_secret = clientSecret;
     tokenBodyData = JSON.stringify(tokenBodyData);
-    tokenOptions.body = tokenBodyData;
+    const tokenOptions = {
+        method: 'POST',
+        url: 'https://api.atlassian.com/oauth/token',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: tokenBodyData,
+    };
+    // tokenOptions.body = tokenBodyData;
     console.log("tokenOptions: ", tokenOptions);
     const response = await request(tokenOptions);
     console.log("getAccessToken response: ", response);

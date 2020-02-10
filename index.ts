@@ -1,4 +1,5 @@
 import { iDeployment } from "./interfaces/iDeployment";
+import { iTokenOptions } from "./interfaces/iTokenOptions";
 
 const core = require('@actions/core');
 
@@ -12,15 +13,15 @@ var tokenBodyData: any = {
     "client_secret": ''
 };
 
-var tokenOptions = {
-    method: 'POST',
-    url: 'https://api.atlassian.com/oauth/token',
-    headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-    },
-    body: {}
-};
+// var tokenOptions = {
+//     method: 'POST',
+//     url: 'https://api.atlassian.com/oauth/token',
+//     headers: {
+//         'Accept': 'application/json',
+//         'Content-Type': 'application/json'
+//     },
+//     body: {}
+// };
 
 let bodyData: any =
     {
@@ -113,7 +114,16 @@ async function getAccessToken() {
     tokenBodyData.client_id = clientId;
     tokenBodyData.client_secret = clientSecret;
     tokenBodyData = JSON.stringify(tokenBodyData);
-    tokenOptions.body = tokenBodyData;
+    const tokenOptions: iTokenOptions = {
+        method: 'POST',
+        url: 'https://api.atlassian.com/oauth/token',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: tokenBodyData,
+    }
+    // tokenOptions.body = tokenBodyData;
 
     console.log("tokenOptions: ", tokenOptions);
     const response = await request(tokenOptions);
