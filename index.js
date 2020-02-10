@@ -9,27 +9,8 @@ var tokenBodyData = {
     "client_id": '',
     "client_secret": ''
 };
-// var tokenOptions = {
-//     method: 'POST',
-//     url: 'https://api.atlassian.com/oauth/token',
-//     headers: {
-//         'Accept': 'application/json',
-//         'Content-Type': 'application/json'
-//     },
-//     body: {}
-// };
 let bodyData = {
     deployments: []
-};
-let options = {
-    method: 'POST',
-    url: '',
-    headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: ''
-    },
-    body: {}
 };
 async function submitDeploymentInfo(accessToken) {
     const cloudId = core.getInput('cloud-id');
@@ -50,7 +31,7 @@ async function submitDeploymentInfo(accessToken) {
     const environmentType = core.getInput('environment-type');
     console.log("lastUpdated: " + lastUpdated);
     lastUpdated = dateFormat(lastUpdated, "yyyy-mm-dd'T'HH:MM:ss'Z'");
-    let deployment = {
+    const deployment = {
         schemaVersion: "1.0",
         deploymentSequenceNumber: deploymentSequenceNumber || null,
         updateSequenceNumber: updateSequenceNumber || null,
@@ -74,9 +55,16 @@ async function submitDeploymentInfo(accessToken) {
     };
     bodyData.deployments = [deployment];
     bodyData = JSON.stringify(bodyData);
-    options.body = bodyData;
-    options.url = "https://api.atlassian.com/jira/deployments/0.1/cloud/" + cloudId + "/bulk";
-    options.headers.Authorization = "Bearer " + accessToken;
+    const options = {
+        method: 'POST',
+        url: "https://api.atlassian.com/jira/deployments/0.1/cloud/" + cloudId + "/bulk",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: "Bearer " + accessToken
+        },
+        body: bodyData
+    };
     let responseJson = await request(options);
     console.log("responseJson: " + responseJson);
     let response = JSON.parse(responseJson);
@@ -105,7 +93,6 @@ async function getAccessToken() {
         },
         body: tokenBodyData,
     };
-    // tokenOptions.body = tokenBodyData;
     console.log("tokenOptions: ", tokenOptions);
     const response = await request(tokenOptions);
     console.log("getAccessToken response: ", response);
