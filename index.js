@@ -3,16 +3,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const core = require('@actions/core');
 const request = require('request-promise-native');
 const dateFormat = require('dateformat');
-var tokenBodyData = {
-    "audience": "api.atlassian.com",
-    "grant_type": "client_credentials",
-    "client_id": '',
-    "client_secret": ''
-};
-// let bodyData: any =
-//     {
-//         deployments: []
-//     };
+// var tokenBodyData: any = {
+//     "audience": "api.atlassian.com",
+//     "grant_type":"client_credentials",
+//     "client_id": '',
+//     "client_secret": ''
+// };
 async function submitDeploymentInfo(accessToken) {
     const cloudId = core.getInput('cloud-id');
     const deploymentSequenceNumber = core.getInput('deployment-sequence-number');
@@ -84,8 +80,12 @@ async function submitDeploymentInfo(accessToken) {
 async function getAccessToken() {
     const clientId = core.getInput('client-id');
     const clientSecret = core.getInput('client-secret');
-    tokenBodyData.client_id = clientId;
-    tokenBodyData.client_secret = clientSecret;
+    var tokenBodyData = {
+        "audience": "api.atlassian.com",
+        "grant_type": "client_credentials",
+        "client_id": clientId,
+        "client_secret": clientSecret
+    };
     tokenBodyData = JSON.stringify(tokenBodyData);
     const tokenOptions = {
         method: 'POST',

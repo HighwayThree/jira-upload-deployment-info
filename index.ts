@@ -6,17 +6,12 @@ const core = require('@actions/core');
 const request = require('request-promise-native');
 const dateFormat = require('dateformat');
 
-var tokenBodyData: any = {
-    "audience": "api.atlassian.com",
-    "grant_type":"client_credentials",
-    "client_id": '',
-    "client_secret": ''
-};
-
-// let bodyData: any =
-//     {
-//         deployments: []
-//     };
+// var tokenBodyData: any = {
+//     "audience": "api.atlassian.com",
+//     "grant_type":"client_credentials",
+//     "client_id": '',
+//     "client_secret": ''
+// };
 
 async function submitDeploymentInfo(accessToken: any) {
     const cloudId = core.getInput('cloud-id');
@@ -99,8 +94,12 @@ async function getAccessToken() {
     const clientId = core.getInput('client-id');
     const clientSecret = core.getInput('client-secret');
 
-    tokenBodyData.client_id = clientId;
-    tokenBodyData.client_secret = clientSecret;
+    var tokenBodyData: any = {
+        "audience": "api.atlassian.com",
+        "grant_type":"client_credentials",
+        "client_id": clientId,
+        "client_secret": clientSecret
+    };
     tokenBodyData = JSON.stringify(tokenBodyData);
     const tokenOptions: iTokenOptions = {
         method: 'POST',
