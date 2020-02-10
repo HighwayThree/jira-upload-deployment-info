@@ -1,5 +1,7 @@
+import { iDeployment } from "./interfaces/iDeployment";
+
 const core = require('@actions/core');
-const github = require('@actions/github');
+
 const request = require('request-promise-native');
 const dateFormat = require('dateformat');
 
@@ -19,30 +21,6 @@ var tokenOptions = {
     },
     body: {}
 };
-
-let deployment =
-    {
-        schemaVersion: "1.0",
-        deploymentSequenceNumber: null,
-        updateSequenceNumber: null,
-        issueKeys: [],
-        displayName: "",
-        url: "",
-        description: "",
-        lastUpdated: "",
-        label: "",
-        state: "",
-        pipeline: {
-            id: "",
-            displayName: "",
-            url: ""
-        },
-        environment: {
-            id: "",
-            displayName: "",
-            type: ""
-        }
-    };
 
 let bodyData: any =
     {
@@ -81,34 +59,36 @@ async function submitDeploymentInfo(accessToken: any) {
     console.log("lastUpdated: " + lastUpdated);
     lastUpdated = dateFormat(lastUpdated, "yyyy-mm-dd'T'HH:MM:ss'Z'");
 
-    deployment.deploymentSequenceNumber = deploymentSequenceNumber;
-    deployment.updateSequenceNumber = updateSequenceNumber;
-    deployment.issueKeys = issueKeys.split(',');
-    deployment.displayName = displayName;
-    deployment.url = url;
-    deployment.description = description;
-    deployment.lastUpdated = lastUpdated;
-    deployment.label = label;
-    deployment.state = state;
-    deployment.pipeline.id = pipelineId;
-    deployment.pipeline.displayName = pipelineDisplayName;
-    deployment.pipeline.url = pipelineUrl;
-    deployment.environment.id = environmentId;
-    deployment.environment.displayName = environmentDisplayName;
-    deployment.environment.type = environmentType;
+    let deployment: iDeployment =
+    {
+        schemaVersion: "1.0",
+        deploymentSequenceNumber: deploymentSequenceNumber || null,
+        updateSequenceNumber: updateSequenceNumber || null,
+        issueKeys: issueKeys.split(',') || [],
+        displayName: displayName || "",
+        url: url || "",
+        description: description || "",
+        lastUpdated: lastUpdated || "",
+        label: label || "",
+        state: state || "",
+        pipeline: {
+            id: pipelineId || "",
+            displayName: pipelineDisplayName || "",
+            url: pipelineUrl || ""
+        },
+        environment: {
+            id: environmentId || "",
+            displayName: environmentDisplayName || "",
+            type: environmentType || ""
+        }
+    };
 
     bodyData.deployments = [deployment];
     bodyData = JSON.stringify(bodyData);
-    // console.log("bodyData: " + bodyData);
 
     options.body = bodyData;
     options.url = "https://api.atlassian.com/jira/deployments/0.1/cloud/" + cloudId + "/bulk";
     options.headers.Authorization = "Bearer " + accessToken;
-
-    // console.log("options: ", options);
-
-    // const payload = JSON.stringify(github.context.payload, undefined, 2)
-    // console.log(`The event payload: ${payload}`);
 
     let responseJson = await request(options);
     console.log("responseJson: " + responseJson);
@@ -134,8 +114,6 @@ async function getAccessToken() {
     tokenBodyData.client_secret = clientSecret;
     tokenBodyData = JSON.stringify(tokenBodyData);
     tokenOptions.body = tokenBodyData;
-    // const payload = JSON.stringify(github.context.payload, undefined, 2)
-    // console.log(`The event payload: ${payload}`);
 
     console.log("tokenOptions: ", tokenOptions);
     const response = await request(tokenOptions);
