@@ -3,12 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const core = require('@actions/core');
 const request = require('request-promise-native');
 const dateFormat = require('dateformat');
-// var tokenBodyData: any = {
-//     "audience": "api.atlassian.com",
-//     "grant_type":"client_credentials",
-//     "client_id": '',
-//     "client_secret": ''
-// };
 async function submitDeploymentInfo(accessToken) {
     const cloudId = core.getInput('cloud-id');
     const deploymentSequenceNumber = core.getInput('deployment-sequence-number');
@@ -112,3 +106,4 @@ async function getAccessToken() {
         core.setFailed(error.message);
     }
 })();
+exports.default = getAccessToken;

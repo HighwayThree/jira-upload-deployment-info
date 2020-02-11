@@ -12,6 +12,6 @@
       "removeComments": false,
       "preserveConstEnums": true
     },
-    "include": ["action.yml", "index.ts", "debug-action/debug.ts", "debug-action/__tests__/debug.tests.ts"],
+    "include": ["action.yml", "index.ts", "__tests__"],
     "exclude": ["node_modules"]
   }
