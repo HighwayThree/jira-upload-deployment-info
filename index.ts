@@ -122,4 +122,4 @@ async function getAccessToken() {
     }
 })();
 
-export default getAccessToken;
+export {submitDeploymentInfo, getAccessToken}

@@ -71,6 +71,7 @@ async function submitDeploymentInfo(accessToken) {
     }
     core.setOutput("response", responseJson);
 }
+exports.submitDeploymentInfo = submitDeploymentInfo;
 async function getAccessToken() {
     const clientId = core.getInput('client-id');
     const clientSecret = core.getInput('client-secret');
@@ -95,6 +96,7 @@ async function getAccessToken() {
     console.log("getAccessToken response: ", response);
     return JSON.parse(response);
 }
+exports.getAccessToken = getAccessToken;
 (async function () {
     try {
         const accessTokenResponse = await getAccessToken();
@@ -106,4 +108,3 @@ async function getAccessToken() {
         core.setFailed(error.message);
     }
 })();
-exports.default = getAccessToken;
