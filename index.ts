@@ -1,9 +1,12 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+import { iDeployment } from "./interfaces/iDeployment";
+import { iTokenOptions } from "./interfaces/iTokenOptions";
+import { iOptions } from "./interfaces/iOptions";
+
 const core = require('@actions/core');
 const request = require('request-promise-native');
 const dateFormat = require('dateformat');
-async function submitDeploymentInfo(accessToken) {
+
+async function submitDeploymentInfo(accessToken: any) {
     const cloudId = core.getInput('cloud-id');
     const deploymentSequenceNumber = core.getInput('deployment-sequence-number');
     const updateSequenceNumber = core.getInput('update-sequence-number');
@@ -20,9 +23,12 @@ async function submitDeploymentInfo(accessToken) {
     const environmentId = core.getInput('environment-id');
     const environmentDisplayName = core.getInput('environment-display-name');
     const environmentType = core.getInput('environment-type');
+
     console.log("lastUpdated: " + lastUpdated);
     lastUpdated = dateFormat(lastUpdated, "yyyy-mm-dd'T'HH:MM:ss'Z'");
-    const deployment = {
+
+    const deployment: iDeployment =
+    {
         schemaVersion: "1.0",
         deploymentSequenceNumber: deploymentSequenceNumber || null,
         updateSequenceNumber: updateSequenceNumber || null,
@@ -44,11 +50,13 @@ async function submitDeploymentInfo(accessToken) {
             type: environmentType || ""
         }
     };
-    let bodyData = {
+
+    let bodyData: any = {
         deployments: [deployment],
-    };
+    }
     bodyData = JSON.stringify(bodyData);
-    const options = {
+
+    const options: iOptions = {
         method: 'POST',
         url: "https://api.atlassian.com/jira/deployments/0.1/cloud/" + cloudId + "/bulk",
         headers: {
@@ -58,31 +66,35 @@ async function submitDeploymentInfo(accessToken) {
         },
         body: bodyData
     };
+
     let responseJson = await request(options);
     console.log("responseJson: " + responseJson);
     let response = JSON.parse(responseJson);
-    if (response.rejectedDeployments && response.rejectedDeployments.length > 0) {
+
+    if(response.rejectedDeployments && response.rejectedDeployments.length > 0) {
         const rejectedDeployment = response.rejectedDeployments[0];
         console.log("errors: ", rejectedDeployment.errors);
-        let errors = rejectedDeployment.errors.map((error) => error.message).join(',');
+        let errors = rejectedDeployment.errors.map((error: any) => error.message).join(',');
         errors.substr(0, errors.length - 1);
         console.log("joined errors: ", errors);
         core.setFailed(errors);
     }
+
     core.setOutput("response", responseJson);
 }
-exports.submitDeploymentInfo = submitDeploymentInfo;
+
 async function getAccessToken() {
     const clientId = core.getInput('client-id');
     const clientSecret = core.getInput('client-secret');
-    var tokenBodyData = {
+
+    var tokenBodyData: any = {
         "audience": "api.atlassian.com",
-        "grant_type": "client_credentials",
+        "grant_type":"client_credentials",
         "client_id": clientId,
         "client_secret": clientSecret
     };
     tokenBodyData = JSON.stringify(tokenBodyData);
-    const tokenOptions = {
+    const tokenOptions: iTokenOptions = {
         method: 'POST',
         url: 'https://api.atlassian.com/oauth/token',
         headers: {
@@ -90,21 +102,24 @@ async function getAccessToken() {
             'Content-Type': 'application/json',
         },
         body: tokenBodyData,
-    };
+    }
+
     console.log("tokenOptions: ", tokenOptions);
     const response = await request(tokenOptions);
     console.log("getAccessToken response: ", response);
     return JSON.parse(response);
 }
-exports.getAccessToken = getAccessToken;
+
+
 (async function () {
     try {
         const accessTokenResponse = await getAccessToken();
         console.log("accessTokenResponse: ", accessTokenResponse);
         await submitDeploymentInfo(accessTokenResponse.access_token);
         console.log("finished submitting deployment info");
-    }
-    catch (error) {
+    } catch (error) {
         core.setFailed(error.message);
     }
 })();
+
+export {submitDeploymentInfo, getAccessToken}
