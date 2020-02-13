@@ -3,6 +3,7 @@ import { iTokenOptions } from "./interfaces/iTokenOptions";
 import { iOptions } from "./interfaces/iOptions";
 
 const core = require('@actions/core');
+const github = require('@actions/github');
 const request = require('request-promise-native');
 const dateFormat = require('dateformat');
 
@@ -30,8 +31,8 @@ async function submitDeploymentInfo(accessToken: any) {
     const deployment: iDeployment =
     {
         schemaVersion: "1.0",
-        deploymentSequenceNumber: deploymentSequenceNumber || null,
-        updateSequenceNumber: updateSequenceNumber || null,
+        deploymentSequenceNumber: deploymentSequenceNumber || process.env['GITHUB_RUN_ID'],
+        updateSequenceNumber: updateSequenceNumber || process.env['GITHUB_RUN_ID'],
         issueKeys: issueKeys.split(',') || [],
         displayName: displayName || "",
         url: url || "",
@@ -50,6 +51,30 @@ async function submitDeploymentInfo(accessToken: any) {
             type: environmentType || ""
         }
     };
+
+    console.log("\ndeploymentSequenceNumber");
+    console.log(deploymentSequenceNumber);
+    console.log(process.env['GITHUB_RUN_ID']);
+
+    console.log("\nupdateSequenceNumber");
+    console.log(updateSequenceNumber);
+    console.log(process.env['GITHUB_RUN_ID']);
+
+    console.log("\nurl");
+    console.log(url);
+    console.log(`${github.context.payload.repository.url}/actions/runs/${process.env['GITHUB_RUN_ID']}`);
+
+    console.log("\npipeline id");
+    console.log(pipelineId);
+    console.log(`${github.context.payload.repository.full_name} ${github.context.workflow}`);
+
+    console.log("\npipeline DisplayName");
+    console.log(pipelineDisplayName);
+    console.log(`Workflow: ${github.context.workflow } (#${ process.env['GITHUB_RUN_NUMBER'] })`);
+
+    console.log("\npipeline Url");
+    console.log(pipelineUrl);
+    console.log(`${github.context.payload.repository.url}/actions/runs/${process.env['GITHUB_RUN_ID']}`);
 
     let bodyData: any = {
         deployments: [deployment],

@@ -12,10 +12,10 @@ inputs:
     required: true
   deployment-sequence-number:
     description: ''
-    required: true
+    required: false
   update-sequence-number:
     description: ''
-    required: true
+    required: false
   issue-keys:
     description: 'comma delimited list of jira keys'
     required: true
@@ -24,7 +24,7 @@ inputs:
     required: true
   url:
     description: ''
-    required: true
+    required: false
   description:
     description: ''
     required: true
@@ -39,13 +39,13 @@ inputs:
     required: true
   pipeline-id:
     description: ''
-    required: true
+    required: false
   pipeline-display-name:
     description: ''
-    required: true
+    required: false
   pipeline-url:
     description: ''
-    required: true
+    required: false
   environment-id:
     description: ''
     required: true
