@@ -46,19 +46,19 @@ For more information on Github Environment Variables, see https://help.github.co
 
 ```
 uses: HighwayThree/jira-upload-deployment-info@master
-      with:
-        client-id: '${{ secrets.CLIENT_ID }}'
-        client-secret: '${{ secrets.CLIENT_SECRET }}'
-        cloud-instance-base-url: '${{ secrets.CLOUD_INSTANCE_BASE_URL }}'
-        issue-keys: "${{ steps.jira_keys.outputs.jira-keys }}"
-        display-name: "Deployment Number 1"
-        description: "Test Deployment"
-        last-updated: '${{github.event.head_commit.timestamp}}'
-        label: 'Test Deployment Label'
-        state: '${{env.DEPLOY_STATE}}'
-        environment-id: 'Test'
-        environment-display-name: 'Test'
-        environment-type: 'testing'
+with:
+  client-id: '${{ secrets.CLIENT_ID }}'
+  client-secret: '${{ secrets.CLIENT_SECRET }}'
+  cloud-instance-base-url: '${{ secrets.CLOUD_INSTANCE_BASE_URL }}'
+  issue-keys: "${{ steps.jira_keys.outputs.jira-keys }}"
+  display-name: "Deployment Number 1"
+  description: "Test Deployment"
+  last-updated: '${{github.event.head_commit.timestamp}}'
+  label: 'Test Deployment Label'
+  state: '${{env.DEPLOY_STATE}}'
+  environment-id: 'Test'
+  environment-display-name: 'Test'
+  environment-type: 'testing'
 ```
 
 - `client-id` - Access token found in OAth credentials of your Jira Cloud website.
