@@ -34,21 +34,21 @@ async function submitDeploymentInfo(accessToken: any) {
         deploymentSequenceNumber: deploymentSequenceNumber || process.env['GITHUB_RUN_ID'],
         updateSequenceNumber: updateSequenceNumber || process.env['GITHUB_RUN_ID'],
         issueKeys: issueKeys.split(',') || [],
-        displayName: displayName,
+        displayName: displayName || '',
         url: url || `${github.context.payload.repository.url}/actions/runs/${process.env['GITHUB_RUN_ID']}`,
-        description: description,
-        lastUpdated: lastUpdated,
-        label: label,
-        state: state,
+        description: description || '',
+        lastUpdated: lastUpdated || '',
+        label: label || '',
+        state: state || '',
         pipeline: {
             id: pipelineId || `${github.context.payload.repository.full_name} ${github.context.workflow}`,
             displayName: pipelineDisplayName || `Workflow: ${github.context.workflow } (#${ process.env['GITHUB_RUN_NUMBER'] })`,
             url: pipelineUrl || `${github.context.payload.repository.url}/actions/runs/${process.env['GITHUB_RUN_ID']}`,
         },
         environment: {
-            id: environmentId,
-            displayName: environmentDisplayName,
-            type: environmentType,
+            id: environmentId || '',
+            displayName: environmentDisplayName || '',
+            type: environmentType || '',
         }
     };
 
