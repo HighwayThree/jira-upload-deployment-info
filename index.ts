@@ -9,7 +9,7 @@ const dateFormat = require('dateformat');
 
 async function submitDeploymentInfo(accessToken: any) {
     const cloudInstanceBaseUrl = core.getInput('cloud-instance-base-url');
-    let cloudId = await request(cloudInstanceBaseUrl + '_edge/tenant_info');
+    let cloudId = await request(cloudInstanceBaseUrl + '/_edge/tenant_info');
     cloudId = JSON.parse(cloudId);
     cloudId = cloudId.cloudId;
     const deploymentSequenceNumber = core.getInput('deployment-sequence-number');

@@ -63,7 +63,7 @@ uses: HighwayThree/jira-upload-deployment-info@master
 
 - `client-id` - Access token found in OAth credentials of your Jira Cloud website.
 - `client-secret` - Access token found in OAth credentials of your Jira Cloud website.
-- `cloud-instance-base-url` - The base URL of your connected Jira Cloud. In this example it is stored in a GitHub secret, but another example could be 'https://example.atlassian.net/'
+- `cloud-instance-base-url` - The base URL of your connected Jira Cloud. In this example it is stored in a GitHub secret, but another example could be 'https://example.atlassian.net'
 - `issue-keys` - Key values that correspond with Jira issues of the connected Jira Cloud.
 - `display-name` - The title for the deployment.
 - `description` - Provides a description of the deployment.
