@@ -49,7 +49,7 @@ For more information on Github Environment Variables, see https://help.github.co
 ###### Job specific variables
 
 ```
-uses: HighwayThree/jira-upload-build-info@master
+uses: HighwayThree/jira-upload-deployment-info@master
       with:
         cloud-id: '${{ secrets.CLOUD_ID }}'
         client-id: '${{ secrets.CLIENT_ID }}'
