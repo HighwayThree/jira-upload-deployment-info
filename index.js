@@ -5,7 +5,10 @@ const github = require('@actions/github');
 const request = require('request-promise-native');
 const dateFormat = require('dateformat');
 async function submitDeploymentInfo(accessToken) {
-    const cloudId = core.getInput('cloud-id');
+    const cloudInstanceBaseUrl = core.getInput('cloud-instance-base-url');
+    let cloudId = await request(cloudInstanceBaseUrl + '_edge/tenant_info');
+    cloudId = JSON.parse(cloudId);
+    cloudId = cloudId.cloudId;
     const deploymentSequenceNumber = core.getInput('deployment-sequence-number');
     const updateSequenceNumber = core.getInput('update-sequence-number');
     const issueKeys = core.getInput('issue-keys');
@@ -28,21 +31,21 @@ async function submitDeploymentInfo(accessToken) {
         deploymentSequenceNumber: deploymentSequenceNumber || process.env['GITHUB_RUN_ID'],
         updateSequenceNumber: updateSequenceNumber || process.env['GITHUB_RUN_ID'],
         issueKeys: issueKeys.split(',') || [],
-        displayName: displayName,
+        displayName: displayName || '',
         url: url || `${github.context.payload.repository.url}/actions/runs/${process.env['GITHUB_RUN_ID']}`,
-        description: description,
-        lastUpdated: lastUpdated,
-        label: label,
-        state: state,
+        description: description || '',
+        lastUpdated: lastUpdated || '',
+        label: label || '',
+        state: state || '',
         pipeline: {
             id: pipelineId || `${github.context.payload.repository.full_name} ${github.context.workflow}`,
             displayName: pipelineDisplayName || `Workflow: ${github.context.workflow} (#${process.env['GITHUB_RUN_NUMBER']})`,
             url: pipelineUrl || `${github.context.payload.repository.url}/actions/runs/${process.env['GITHUB_RUN_ID']}`,
         },
         environment: {
-            id: environmentId,
-            displayName: environmentDisplayName,
-            type: environmentType,
+            id: environmentId || '',
+            displayName: environmentDisplayName || '',
+            type: environmentType || '',
         }
     };
     let bodyData = {

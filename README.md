@@ -14,11 +14,7 @@ Have `Jira Software + GitHub` installed on your GitHub account. It can be found 
 Make sure these two are connected. To do this, in Jira Cloud go to  `Settings -> Apps -> Manage Apps -> GitHub`. Click on 'Get Started' to begin connecting yourself to your GitHub account. 
 
 #### Action Secrets
-This action requires three secrets to be stored in GitHub. These can be named whatever you want, but for this example they will be `CLOUD_ID`, `CLIENT_ID`, and `CLIENT_SECRET` to go with the required inputs for this action.
-
-The `CLOUD_ID` can be found at your Jira Cloud website + _edge/tenant_info
-
-Example: https://example.atlassian.net/_edge/tenant_info
+This action requires three secrets to be stored in GitHub. These can be named whatever you want, but for this example they will be `CLIENT_ID` and `CLIENT_SECRET` to go with the required inputs for this action.
 
 In Jira Cloud, navigate to `Settings -> Apps -> OAth credentials`. If you do not have credentials set up to your GitHub account already, create new credentials. The App name can be anything, the Server base URL and Logo URL can be your GitHub account: i.e. https://github.com/your-github-account. Set permissions as Developyments: allowed, Builds: allowed, and Development Informaiton: allowed.
 
@@ -51,9 +47,9 @@ For more information on Github Environment Variables, see https://help.github.co
 ```
 uses: HighwayThree/jira-upload-deployment-info@master
       with:
-        cloud-id: '${{ secrets.CLOUD_ID }}'
         client-id: '${{ secrets.CLIENT_ID }}'
         client-secret: '${{ secrets.CLIENT_SECRET }}'
+        cloud-instance-base-url: '${{ secrets.CLOUD_INSTANCE_BASE_URL }}'
         issue-keys: "${{ steps.jira_keys.outputs.jira-keys }}"
         display-name: "Deployment Number 1"
         description: "Test Deployment"
@@ -65,9 +61,9 @@ uses: HighwayThree/jira-upload-deployment-info@master
         environment-type: 'testing'
 ```
 
-- `cloud-id` - Access token found at your Jira Cloud website + _edge/tenant_info.
 - `client-id` - Access token found in OAth credentials of your Jira Cloud website.
 - `client-secret` - Access token found in OAth credentials of your Jira Cloud website.
+- `cloud-instance-base-url` - The base URL of your connected Jira Cloud. In this example it is stored in a GitHub secret, but another example could be 'https://example.atlassian.net/'
 - `issue-keys` - Key values that correspond with Jira issues of the connected Jira Cloud.
 - `display-name` - The title for the deployment.
 - `description` - Provides a description of the deployment.
