@@ -67,7 +67,7 @@ with:
 - `issue-keys` - Key values that correspond with Jira issues of the connected Jira Cloud.
 - `display-name` - The title for the deployment.
 - `description` - Provides a description of the deployment.
-- `last-updated` - A timestamp is created with the format yyyy-mm-dd'T'HH:MM:ss'Z'
+- `last-updated` - A timestamp is created with the format yyyy-mm-dd'T'HH:MM:ss'Z'. Input should look something like 2020-01-01T00:01:00-08:00
 - `label` - Provides a label for the deployment.
 - `state` - Gives a state for the deployment. For example: CI
 - `environment-id` - Provides an ID for the environment.
