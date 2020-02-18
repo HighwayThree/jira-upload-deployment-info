@@ -23,7 +23,8 @@
   "dependencies": {
     "dateformat": "^3.0.3",
     "request": "^2.88.0",
-    "request-promise-native": "^1.0.8"
+    "request-promise-native": "^1.0.8",
+    "upload-build-upload-deployment-token-retrieval-logic": "file:../upload-build-upload-deployment-token-retrieval-logic"
   },
   "devDependencies": {
     "@actions/core": "^1.2.2",

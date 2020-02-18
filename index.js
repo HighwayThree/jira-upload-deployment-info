@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const core = require('@actions/core');
 const request = require('request-promise-native');
 const dateFormat = require('dateformat');
+const token = require('upload-build-upload-deployment-token-retrieval-logic');
 async function submitDeploymentInfo(accessToken) {
     const cloudId = core.getInput('cloud-id');
     const deploymentSequenceNumber = core.getInput('deployment-sequence-number');
@@ -59,7 +60,6 @@ async function submitDeploymentInfo(accessToken) {
         body: bodyData
     };
     let responseJson = await request(options);
-    console.log("responseJson: " + responseJson);
     let response = JSON.parse(responseJson);
     if (response.rejectedDeployments && response.rejectedDeployments.length > 0) {
         const rejectedDeployment = response.rejectedDeployments[0];
@@ -72,34 +72,9 @@ async function submitDeploymentInfo(accessToken) {
     core.setOutput("response", responseJson);
 }
 exports.submitDeploymentInfo = submitDeploymentInfo;
-async function getAccessToken() {
-    const clientId = core.getInput('client-id');
-    const clientSecret = core.getInput('client-secret');
-    var tokenBodyData = {
-        "audience": "api.atlassian.com",
-        "grant_type": "client_credentials",
-        "client_id": clientId,
-        "client_secret": clientSecret
-    };
-    tokenBodyData = JSON.stringify(tokenBodyData);
-    const tokenOptions = {
-        method: 'POST',
-        url: 'https://api.atlassian.com/oauth/token',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
-        body: tokenBodyData,
-    };
-    console.log("tokenOptions: ", tokenOptions);
-    const response = await request(tokenOptions);
-    console.log("getAccessToken response: ", response);
-    return JSON.parse(response);
-}
-exports.getAccessToken = getAccessToken;
 (async function () {
     try {
-        const accessTokenResponse = await getAccessToken();
+        const accessTokenResponse = await token.getAccessToken();
         console.log("accessTokenResponse: ", accessTokenResponse);
         await submitDeploymentInfo(accessTokenResponse.access_token);
         console.log("finished submitting deployment info");
