@@ -16,7 +16,7 @@ Make sure these two are connected. To do this, in Jira Cloud go to  `Settings ->
 #### Action Secrets
 This action requires three secrets to be stored in GitHub. These can be named whatever you want, but for this example they will be `CLIENT_ID` and `CLIENT_SECRET` to go with the required inputs for this action.
 
-In Jira Cloud, navigate to `Settings -> Apps -> OAth credentials`. If you do not have credentials set up to your GitHub account already, create new credentials. The App name can be anything, the Server base URL and Logo URL can be your GitHub account: i.e. https://github.com/your-github-account. Set permissions as Developyments: allowed, Builds: allowed, and Development Informaiton: allowed.
+In Jira Cloud, navigate to `Settings -> Apps -> OAth credentials`. If you do not have credentials set up to your GitHub account already, create new credentials. The App name can be anything, the Server base URL and Logo URL can be your GitHub account: i.e. https://<span></span>github.com/your-github-account. Set permissions as Developyments: allowed, Builds: allowed, and Development Informaiton: allowed.
 
 `CLIENT_ID` is the Client ID generated in OAth credentials.
 
@@ -79,11 +79,23 @@ with:
 If `these` job specific variables are not specified in the user's .yml file, then they are given the 'default values' seen below by the action.
 
 - `deployment-sequence-number`: '${{ github.run_id }}'
+  - '${{ github.run_id }}' = '12345678'
+  - Can be any string
 - `update-sequence-number`: '${{ github.run_id }}'
+  - '${{ github.run_id }}' = '12345678'
+  - Can be any string
 - `url`: "${{github.event.repository.url}}/actions/runs/${{github.run_id}}"
+  - '${{github.event.repository.url}}/actions/runs/${{github.run_id}}' = https://<span></span>github.com/user/test-jira-github-actions-demo/actions/runs/12345678
+  - Can be any string
 - `pipeline-id`: '${{ github.repository }} ${{ github.workflow }}'
+  - '${{ github.repository }} ${{ github.workflow }}' = user/test-jira-github-actions-demo CI
+  - Can be any string
 - `pipeline-display-name`: 'Workflow: ${{ github.workflow }} (#${{ github.run_number }})'
+  - 'Workflow: ${{ github.workflow }} (#${{ github.run_number }})' = Workflow: CI (#100)
+  - Can be any string
 - `pipeline-url`: '${{github.event.repository.url}}/actions/runs/${{github.run_id}}'
+  - '${{github.event.repository.url}}/actions/runs/${{github.run_id}}' = https://<span></span>github.com/user/test-jira-github-actions-demo/actions/runs/12345678
+  - Can be any string
 
 ### Output value
 
