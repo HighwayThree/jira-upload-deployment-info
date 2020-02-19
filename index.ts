@@ -1,13 +1,15 @@
 import { iDeployment } from "./interfaces/iDeployment";
-import { iOptions } from "./interfaces/iOptions";
 
 const core = require('@actions/core');
 const request = require('request-promise-native');
 const dateFormat = require('dateformat');
-const token = require('upload-build-upload-deployment-token-retrieval-logic');
+const token = require('@highwaythree/jira-github-actions-common');
 
 async function submitDeploymentInfo(accessToken: any) {
-    const cloudId = core.getInput('cloud-id');
+    const cloudInstanceBaseUrl = core.getInput('cloud-instance-base-url');
+    let cloudId = await request(cloudInstanceBaseUrl + '/_edge/tenant_info');
+    cloudId = JSON.parse(cloudId);
+    cloudId = cloudId.cloudId;
     const deploymentSequenceNumber = core.getInput('deployment-sequence-number');
     const updateSequenceNumber = core.getInput('update-sequence-number');
     const issueKeys = core.getInput('issue-keys');
@@ -54,22 +56,9 @@ async function submitDeploymentInfo(accessToken: any) {
     let bodyData: any = {
         deployments: [deployment],
     }
-    bodyData = JSON.stringify(bodyData);
 
-    const options: iOptions = {
-        method: 'POST',
-        url: "https://api.atlassian.com/jira/deployments/0.1/cloud/" + cloudId + "/bulk",
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            Authorization: "Bearer " + accessToken
-        },
-        body: bodyData
-    };
-
-    let responseJson = await request(options);
+    let responseJson = await token.getOptionsResponse(cloudId, accessToken, bodyData);
     let response = JSON.parse(responseJson);
-
     if(response.rejectedDeployments && response.rejectedDeployments.length > 0) {
         const rejectedDeployment = response.rejectedDeployments[0];
         console.log("errors: ", rejectedDeployment.errors);
