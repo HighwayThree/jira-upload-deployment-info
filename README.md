@@ -16,7 +16,7 @@ Make sure these two are connected. To do this, in Jira Cloud go to  `Settings ->
 #### Action Secrets
 This action requires three secrets to be stored in GitHub. These can be named whatever you want, but for this example they will be `CLIENT_ID` and `CLIENT_SECRET` to go with the required inputs for this action.
 
-In Jira Cloud, navigate to `Settings -> Apps -> OAth credentials`. If you do not have credentials set up to your GitHub account already, create new credentials. The App name can be anything, the Server base URL and Logo URL can be your GitHub account: i.e. https://<span></span>github.com/your-github-account. Set permissions as Developyments: allowed, Builds: allowed, and Development Informaiton: allowed.
+In Jira Cloud, navigate to `Settings -> Apps -> OAth credentials`. If you do not have credentials set up to your GitHub account already, create new credentials. The App name can be anything, the Server base URL and Logo URL can be your GitHub account: i.e. https://<span></span>github.com/your-github-account. Set permissions as Delopyments: allowed, Builds: allowed, and Development Information: allowed.
 
 `CLIENT_ID` is the Client ID generated in OAth credentials.
 
@@ -103,5 +103,5 @@ If `these` job specific variables are not specified in the user's .yml file, the
 
 ## Usage
 
-An example of a pipeline using this actino can be found at: 
+An example of a pipeline using this action can be found at: 
 > https://github.com/HighwayThree/jira-github-action-integration-demo/blob/master/.github/workflows/ci.yml
