@@ -2,7 +2,7 @@ name: 'Jira Upload Deployment Info'
 description: 'Github Action to upload deployment info associated with a Jira issue key to Jira Software REST API'
 inputs:
   cloud-instance-base-url:
-    description: 'Jira cloud id'
+    description: 'Jira cloud url'
     required: true
   client-id:
     description: 'jira oauth client id'
