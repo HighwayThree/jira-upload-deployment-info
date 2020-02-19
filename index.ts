@@ -1,4 +1,5 @@
 import { iDeployment } from "./interfaces/iDeployment";
+import { iOptions } from "./interfaces/iOptions";
 
 const core = require('@actions/core');
 const request = require('request-promise-native');
@@ -57,7 +58,21 @@ async function submitDeploymentInfo(accessToken: any) {
         deployments: [deployment],
     }
 
-    let responseJson = await token.getOptionsResponse(cloudId, accessToken, bodyData);
+    bodyData = JSON.stringify(bodyData);
+    console.log("bodyData: " + bodyData);
+
+    const options: iOptions = {
+        method: 'POST',
+        url: "https://api.atlassian.com/jira/builds/0.1/cloud/" + cloudId + "/bulk",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            Authorization:"Bearer " + accessToken,
+        },
+        body: bodyData,
+    }
+
+    let responseJson = await request(options);
     let response = JSON.parse(responseJson);
     if(response.rejectedDeployments && response.rejectedDeployments.length > 0) {
         const rejectedDeployment = response.rejectedDeployments[0];
