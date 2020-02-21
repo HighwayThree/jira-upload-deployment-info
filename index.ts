@@ -88,7 +88,9 @@ async function submitDeploymentInfo(accessToken: any) {
 
 (async function () {
     try {
-        const accessTokenResponse = await token.getAccessToken();
+        const clientId = core.getInput('client-id');
+        const clientSecret = core.getInput('client-secret');
+        const accessTokenResponse = await token.getAccessToken(clientId, clientSecret);
         console.log("accessTokenResponse: ", accessTokenResponse);
         await submitDeploymentInfo(accessTokenResponse.access_token);
         console.log("finished submitting deployment info");
