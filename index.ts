@@ -2,6 +2,7 @@ import { iDeployment } from "./interfaces/iDeployment";
 import { iOptions } from "./interfaces/iOptions";
 
 const core = require('@actions/core');
+const github = require('@actions/github');
 const request = require('request-promise-native');
 const dateFormat = require('dateformat');
 const token = require('@highwaythree/jira-github-actions-common');
@@ -38,24 +39,24 @@ async function submitDeploymentInfo(accessToken: any) {
     const deployment: iDeployment =
     {
         schemaVersion: "1.0",
-        deploymentSequenceNumber: deploymentSequenceNumber || null,
-        updateSequenceNumber: updateSequenceNumber || null,
+        deploymentSequenceNumber: deploymentSequenceNumber || process.env['GITHUB_RUN_ID'],
+        updateSequenceNumber: updateSequenceNumber || process.env['GITHUB_RUN_ID'],
         issueKeys: issueKeys.split(',') || [],
-        displayName: displayName || "",
-        url: url || "",
-        description: description || "",
-        lastUpdated: lastUpdated || "",
-        label: label || "",
-        state: state || "",
+        displayName: displayName || '',
+        url: url || `${github.context.payload.repository.url}/actions/runs/${process.env['GITHUB_RUN_ID']}`,
+        description: description || '',
+        lastUpdated: lastUpdated || '',
+        label: label || '',
+        state: state || '',
         pipeline: {
-            id: pipelineId || "",
-            displayName: pipelineDisplayName || "",
-            url: pipelineUrl || ""
+            id: pipelineId || `${github.context.payload.repository.full_name} ${github.context.workflow}`,
+            displayName: pipelineDisplayName || `Workflow: ${github.context.workflow } (#${ process.env['GITHUB_RUN_NUMBER'] })`,
+            url: pipelineUrl || `${github.context.payload.repository.url}/actions/runs/${process.env['GITHUB_RUN_ID']}`,
         },
         environment: {
-            id: environmentId || "",
-            displayName: environmentDisplayName || "",
-            type: environmentType || ""
+            id: environmentId || '',
+            displayName: environmentDisplayName || '',
+            type: environmentType || '',
         }
     };
 

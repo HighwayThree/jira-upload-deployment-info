@@ -30,7 +30,7 @@
     "@actions/core": "^1.2.2",
     "@actions/github": "^2.1.0",
     "@types/jest": "^25.1.2",
-    "@types/node": "^13.7.0",
+    "@types/node": "^13.7.1",
     "jest": "^25.1.0",
     "js-yaml": "^3.13.1",
     "nock": "^11.8.2",
