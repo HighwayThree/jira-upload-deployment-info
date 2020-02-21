@@ -7,7 +7,7 @@ const token = require('@highwaythree/jira-github-actions-common');
 async function submitDeploymentInfo(accessToken) {
     const cloudInstanceBaseUrl = core.getInput('cloud-instance-base-url');
     let cloudId;
-    if (cloudInstanceBaseUrl.charAt(cloudInstanceBaseUrl.length - 1) == '/') {
+    if (cloudInstanceBaseUrl.length > 0 && cloudInstanceBaseUrl.charAt(cloudInstanceBaseUrl.length - 1) == '/') {
         cloudId = await request(cloudInstanceBaseUrl + '_edge/tenant_info');
     }
     else {
