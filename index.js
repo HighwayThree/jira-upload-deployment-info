@@ -6,7 +6,13 @@ const dateFormat = require('dateformat');
 const token = require('@highwaythree/jira-github-actions-common');
 async function submitDeploymentInfo(accessToken) {
     const cloudInstanceBaseUrl = core.getInput('cloud-instance-base-url');
-    let cloudId = await request(cloudInstanceBaseUrl + '/_edge/tenant_info');
+    let cloudId;
+    if (cloudInstanceBaseUrl.charAt(cloudInstanceBaseUrl.length - 1) == '/') {
+        cloudId = await request(cloudInstanceBaseUrl + '_edge/tenant_info');
+    }
+    else {
+        cloudId = await request(cloudInstanceBaseUrl + '/_edge/tenant_info');
+    }
     cloudId = JSON.parse(cloudId);
     cloudId = cloudId.cloudId;
     const deploymentSequenceNumber = core.getInput('deployment-sequence-number');

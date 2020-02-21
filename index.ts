@@ -8,8 +8,13 @@ const token = require('@highwaythree/jira-github-actions-common');
 
 async function submitDeploymentInfo(accessToken: any) {
     const cloudInstanceBaseUrl = core.getInput('cloud-instance-base-url');
-    let cloudId = await request(cloudInstanceBaseUrl + '/_edge/tenant_info');
-    cloudId = JSON.parse(cloudId);
+    let cloudId;
+    if(cloudInstanceBaseUrl.charAt(cloudInstanceBaseUrl.length-1) == '/'){
+        cloudId = await request(cloudInstanceBaseUrl + '_edge/tenant_info');
+    }
+    else{
+        cloudId = await request(cloudInstanceBaseUrl + '/_edge/tenant_info');
+    }    cloudId = JSON.parse(cloudId);
     cloudId = cloudId.cloudId;
     const deploymentSequenceNumber = core.getInput('deployment-sequence-number');
     const updateSequenceNumber = core.getInput('update-sequence-number');
