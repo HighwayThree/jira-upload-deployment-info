@@ -65,7 +65,6 @@ async function submitDeploymentInfo(accessToken: any) {
     }
 
     bodyData = JSON.stringify(bodyData);
-    console.log("bodyData: " + bodyData);
 
     const options: iOptions = {
         method: 'POST',
