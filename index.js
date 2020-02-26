@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const url_1 = require("url");
 const core = require('@actions/core');
 const github = require('@actions/github');
 const request = require('request-promise-native');
@@ -7,13 +8,8 @@ const dateFormat = require('dateformat');
 const token = require('@highwaythree/jira-github-actions-common');
 async function submitDeploymentInfo(accessToken) {
     const cloudInstanceBaseUrl = core.getInput('cloud-instance-base-url');
-    let cloudId;
-    if (cloudInstanceBaseUrl.length > 0 && cloudInstanceBaseUrl.charAt(cloudInstanceBaseUrl.length - 1) == '/') {
-        cloudId = await request(cloudInstanceBaseUrl + '_edge/tenant_info');
-    }
-    else {
-        cloudId = await request(cloudInstanceBaseUrl + '/_edge/tenant_info');
-    }
+    const cloudURL = new url_1.URL('/_edge/tenant_info', cloudInstanceBaseUrl);
+    let cloudId = await request(cloudURL.href);
     cloudId = JSON.parse(cloudId);
     cloudId = cloudId.cloudId;
     const deploymentSequenceNumber = core.getInput('deployment-sequence-number');

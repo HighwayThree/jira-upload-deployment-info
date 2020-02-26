@@ -1,5 +1,6 @@
 import { iDeployment } from "./interfaces/iDeployment";
 import { iOptions } from "./interfaces/iOptions";
+import { URL } from "url";
 
 const core = require('@actions/core');
 const github = require('@actions/github');
@@ -9,13 +10,9 @@ const token = require('@highwaythree/jira-github-actions-common');
 
 async function submitDeploymentInfo(accessToken: any) {
     const cloudInstanceBaseUrl = core.getInput('cloud-instance-base-url');
-    let cloudId;
-    if(cloudInstanceBaseUrl.length > 0 && cloudInstanceBaseUrl.charAt(cloudInstanceBaseUrl.length-1) == '/'){
-        cloudId = await request(cloudInstanceBaseUrl + '_edge/tenant_info');
-    }
-    else{
-        cloudId = await request(cloudInstanceBaseUrl + '/_edge/tenant_info');
-    }    cloudId = JSON.parse(cloudId);
+    const cloudURL = new URL('/_edge/tenant_info', cloudInstanceBaseUrl);
+    let cloudId = await request(cloudURL.href);
+    cloudId = JSON.parse(cloudId);
     cloudId = cloudId.cloudId;
     const deploymentSequenceNumber = core.getInput('deployment-sequence-number');
     const updateSequenceNumber = core.getInput('update-sequence-number');
