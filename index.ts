@@ -30,7 +30,7 @@ async function submitDeploymentInfo(accessToken: any) {
     const environmentDisplayName = core.getInput('environment-display-name');
     const environmentType = core.getInput('environment-type');
 
-    console.log("lastUpdated: " + lastUpdated);
+    // console.log("lastUpdated: " + lastUpdated);
     lastUpdated = dateFormat(lastUpdated, "yyyy-mm-dd'T'HH:MM:ss'Z'");
 
     const deployment: iDeployment =
@@ -78,10 +78,10 @@ async function submitDeploymentInfo(accessToken: any) {
     let response = JSON.parse(responseJson);
     if(response.rejectedDeployments && response.rejectedDeployments.length > 0) {
         const rejectedDeployment = response.rejectedDeployments[0];
-        console.log("errors: ", rejectedDeployment.errors);
+        // console.log("errors: ", rejectedDeployment.errors);
         let errors = rejectedDeployment.errors.map((error: any) => error.message).join(',');
         errors.substr(0, errors.length - 1);
-        console.log("joined errors: ", errors);
+        // console.log("joined errors: ", errors);
         core.setFailed(errors);
     }
 
@@ -93,9 +93,8 @@ async function submitDeploymentInfo(accessToken: any) {
         const clientId = core.getInput('client-id');
         const clientSecret = core.getInput('client-secret');
         const accessTokenResponse = await token.getAccessToken(clientId, clientSecret);
-        console.log("accessTokenResponse: ", accessTokenResponse);
         await submitDeploymentInfo(accessTokenResponse.access_token);
-        console.log("finished submitting deployment info");
+        // console.log("finished submitting deployment info");
     } catch (error) {
         core.setFailed(error.message);
     }

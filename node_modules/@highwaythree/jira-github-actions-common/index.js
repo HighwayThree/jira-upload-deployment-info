@@ -21,8 +21,6 @@ exports.getAccessToken = async function (clientId, clientSecret) {
         },
         body: tokenBodyData,
     };
-    console.log("tokenOptions: ", tokenOptions);
     const response = await request(tokenOptions);
-    console.log("getAccessToken response: ", response);
     return JSON.parse(response);
 };
