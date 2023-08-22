@@ -60,5 +60,5 @@ outputs:
   response:
     description: 'Response from upload deployment info endpoint of Jira Software REST API'
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'index.js'
